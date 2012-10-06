@@ -19,17 +19,17 @@ def initOptions():
     parser.add_option("-c", "--command",
                       dest="command",
                       default="predictions",
-                      help="Command to execute (routeList|prediction)",
+                      help="Command to execute [agencyList|routeList|prediction]",
                       )
     parser.add_option("-r", "--route_tag",
                     dest="routeTag",
                     default="67",
-                    help="The route identifier (Ex: 67, N, J)",
+                    help="The route identifier (Ex: 67, N, J) default=67",
                     )
     parser.add_option("-s", "--stop_id",
                     dest="stopId",
                     default="14159",
-                    help="The stop ID for the route (Ex: 14159)",
+                    help="The stop ID for the route (Ex: 14159) default=14159",
                     )
     (options, args) = parser.parse_args()
     return options
@@ -67,20 +67,46 @@ def busInfoToText (xml):
     info = "Predictions for the " + str(routeTag) + " bus at " + stopTitle
     return info
 
+def getAgencyList(params):
+    colWidth = 50
+    regionMap = {}
+    url = baseUrl + "?command=" + params.command
+    # print(url)
+    xmlData = getXmlFromUrl(url)
+    agencies = xmlData.getElementsByTagName("agency")
+    for agency in agencies:
+        tag = agency.getAttribute("tag")
+        title = agency.getAttribute("title")
+        shortTitle = agency.getAttribute("shortTitle")
+        regionTitle = agency.getAttribute("regionTitle")
+        if regionTitle not in regionMap:
+            regionMap[regionTitle] = {}
+        regionMap[regionTitle][tag] = title
+        if (shortTitle):
+             regionMap[regionTitle][tag] += " (" + shortTitle + ") "
+    regionKeyList = regionMap.keys()
+    regionKeyList.sort()
+    for regionKey in regionKeyList:
+        print regionKey
+        for agencyKey in regionMap[regionKey]:
+            agency = regionMap[regionKey][agencyKey]
+            print pad(5) + agency + pad(colWidth - len(agency)) + agencyKey
+
+
 def getRouteList(params):
-    col_width = 30
+    colWidth = 30
     url = baseUrl + "?command=" + params.command + "&a=" + params.agency
-    print(url)
+    # print(url)
     xmlData = getXmlFromUrl(url)
     routes = xmlData.getElementsByTagName("route")
     for route in routes:
         title = route.getAttribute("title")
         routeTag =route.getAttribute("tag")
-        print title + pad(col_width - len(title)) + routeTag
+        print title + pad(colWidth - len(title)) + routeTag
 
-def getBusInfo (params):
+def getPredictions (params):
     url = baseUrl + "?command=" + params.command + "&a=" + params.agency + "&stopId=" + params.stopId + "&r=" + params.routeTag
-    print(url)
+    # print(url)
     xmlData = getXmlFromUrl(url)
     text = busInfoToText(xmlData)
     speakTextOSX(text)
@@ -112,7 +138,9 @@ def main ():
     if (options.command == "routeList"):
         getRouteList(options)
     elif (options.command == "predictions"):
-        getBusInfo(options)
+        getPredictions(options)
+    elif (options.command == "agencyList"):
+        getAgencyList(options)
     else:
         print "Invalid command parameter:" + options.command
 

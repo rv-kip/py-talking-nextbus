@@ -23,13 +23,18 @@ Options:
   -s STOPID, --stop_id=STOPID
                         The stop ID for the route (Ex: 14159)
 ```
-
-### Get Bus Prediction
+### Get Agency List
 ```
-$ python talking-nextbus.py  -a sf-muni -r 67 -s 14159
+$ python talking-nextbus.py -c agencyList
+California-Northern
+    Unitrans ASUCD/City of Davis (Unitrans)          unitrans
+    AC Transit                                       actransit
+    Emery-Go-Round                                   emery
+    San Francisco Muni (SF Muni)                     sf-muni
+California-Southern
+    Thousand Oaks Transit (TOT) (Thousand Oaks Transit) thousand-oaks
+...
 ```
-The script will read off a list of the buses arriving at that stop in the near future.
-
 ### Get Route List
 ```
 $ python talking-nextbus.py  -a sf-muni -c routeList
@@ -42,3 +47,8 @@ M-Ocean View                 M
 N-Judah                      N
 ...
 ```
+### Get Bus Prediction
+```
+$ python talking-nextbus.py  -a sf-muni -r 67 -s 14159
+```
+The script will read off a list of the buses arriving at that stop in the near future.
