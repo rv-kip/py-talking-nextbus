@@ -3,9 +3,13 @@ py-talking-nextbus
 
 ## Summary
 OS X command line utility to keep you informed verbally of buses arriving at your favorite stop.
+Nextbus API documentation is here: http://www.nextbus.com/xmlFeedDocs/NextBusXMLFeed.pdf
+
+## Installation
+Git clone this repo.
 
 ## Usage
-This only works on OS X with text-to-speech capability
+This only works on OS X with text-to-speech capability.
 
 ### Help
 ```
@@ -15,7 +19,7 @@ Usage: talking-nextbus.py [options]
 Options:
   -h, --help            show this help message and exit
   -a AGENCY, --agency=AGENCY
-                        Name of the transit agency (default:"sf-munu")
+                        Name of the transit agency (default:"sf-muni")
   -c COMMAND, --command=COMMAND
                         Command to execute (routeList|prediction)
   -r ROUTETAG, --route_tag=ROUTETAG
