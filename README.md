@@ -7,6 +7,7 @@ OS X command line utility to keep you informed verbally of buses arriving at you
 ## Usage
 This only works on OS X with text-to-speech capability
 
+### Help
 ```
 $ python talking-nextbus.py  --help
 Usage: talking-nextbus.py [options]
@@ -23,7 +24,21 @@ Options:
                         The stop ID for the route (Ex: 14159)
 ```
 
+### Get Bus Prediction
 ```
 $ python talking-nextbus.py  -a sf-muni -r 67 -s 14159
 ```
 The script will read off a list of the buses arriving at that stop in the near future.
+
+### Get Route List
+```
+$ python talking-nextbus.py  -a sf-muni -c routeList
+E-Line                       E
+F-Market & Wharves           F
+J-Church                     J
+KT-Ingleside/Third Street    KT
+L-Taraval                    L
+M-Ocean View                 M
+N-Judah                      N
+...
+```
